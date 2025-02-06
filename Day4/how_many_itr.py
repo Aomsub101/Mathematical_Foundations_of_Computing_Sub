@@ -16,6 +16,6 @@ while True:
     i += 1
     prev_x = x
 
-print(f"It took {i} iterations to find root in precision of {eps}")
+print(f"It took {i} iterations to find root {x} in precision of {eps}")
 
 # End of file
