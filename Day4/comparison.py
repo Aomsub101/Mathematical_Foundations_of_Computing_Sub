@@ -7,12 +7,12 @@ x_bisc = []
 x_fixp = []
 x_newton = []
 
-interval = [3, 10]
+interval = [1, 10]
 a = interval[0]
 b = interval[1]
 x_n = r.uniform(a,b)
 x_fp = r.uniform(a,b)
-
+real_root = 1
 def f(x):
     return x**2 - 5*x + 4
 
@@ -32,12 +32,12 @@ while True:
         b = m
     else:
         a = m
-    x_bisc.append(abs(m-4))
+    x_bisc.append(abs(m-real_root))
 
 # Fixed-Point
 while True:
     x_new = fix_point(x_fp)
-    x_fixp.append(abs(x_new - 4))
+    x_fixp.append(abs(x_new - real_root))
     if abs(x_new - x_fp) < eps:
         break
     x_fp = x_new
@@ -45,7 +45,7 @@ while True:
 # Newton
 while True:
     x_new = x_n - f(x_n) / f_prime_newton(x_n)
-    x_newton.append(abs(x_new - 4))
+    x_newton.append(abs(x_new - real_root))
     if abs(x_new - x_n) < eps:
         break
     x_n = x_new
