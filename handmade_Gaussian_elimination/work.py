@@ -1,7 +1,7 @@
 import random as r
 
 MAX_SOL = 5
-num_sol = r.randint(2, MAX_SOL)
+num_sol = 2# r.randint(2, MAX_SOL)
 
 X = [r.randint(1, 10) for _ in range(num_sol)]
 A = [[r.randint(-10, 10) for _ in range(num_sol)] for _ in range(num_sol)]
@@ -36,4 +36,12 @@ for row in A:
     print(row)
 print(f"B is {B}")
 
-# End of file
+answer = [0] * num_sol
+for i in range(num_sol-1, -1, -1):
+    sum_ax = 0
+    for j in range(i, num_sol):
+        sum_ax += A[i][j] * answer[j]
+    answer[i] = (B[i] - sum_ax) / A[i][i]
+
+print(f"Solution is: {answer}")
+print(f"Check answer: {answer == X}")
