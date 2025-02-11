@@ -1,5 +1,6 @@
 import random as r
 import math
+
 N = r.randint(2, 10)
 error = 1e-6
 max_itr = 500
@@ -11,8 +12,7 @@ def diagonal_dominance(A):
             if j != i:
                 sum_ += abs(A[i][j])
         if abs(A[i][i]) <= sum_:
-            A[i][i] += sum_+ 1
-            A[i][i] *= sum_ + 1
+            A[i][i] = sum_+ 1
 
     return A
 
@@ -42,21 +42,25 @@ def jacobi_algo(A, B, initial_guess, error, max_itr):
             new_ans[i] = (B[i] - sum_) / A[i][i]
         print(f"x{itr}: {new_ans}")
         if max(abs(new_ans[i] - current_ans[i]) for i in range(N)) < error:
+            itr += 1
             return new_ans, itr
         current_ans = new_ans
 
 A, B, X = generate_matrix()
+
 print(f"matrix is :{A}")
 print(f"B is :{B}")
-initial_guess = [0] * N
+
+initial_guess = B
 answer, itr = jacobi_algo(A, B, initial_guess, error, max_itr)
-print(f"real answer is :{X}")
-print(f"final answer is :{answer}")
-print(f"Total iterations: {itr}")
+
 s = 0
 for i in range(N):
     s += (answer[i] - X[i])**2
 
+print(f"real answer is :{X}")
+print(f"final answer is :{answer}")
+print(f"Total iterations: {itr}")
 print(math.sqrt(s))
 
 # End of file

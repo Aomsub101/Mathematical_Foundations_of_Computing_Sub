@@ -11,8 +11,7 @@ def diagonal_dominance(A):
             if j != i:
                 sum_ += abs(A[i][j])
         if abs(A[i][i]) <= sum_:
-            A[i][i] += sum_+ 1
-            A[i][i] *= sum_ + 1
+            A[i][i] = sum_+ 1
 
     return A
 
@@ -38,21 +37,23 @@ def seidal_algo(A, B, initial_guess, ERROR, MAX_ITR):
             sum_ = 0
             for j in range(N):
                 if i != j:
-                    sum_ += A[i][j] * prev_ans[j]
-            prev_ans[i] = (B[i] - sum_) / A[i][i]
+                    sum_ += A[i][j] * current_ans[j]
+            current_ans[i] = (B[i] - sum_) / A[i][i]
         # print(f"x{itr}: {prev_ans}")
         if max(abs(current_ans[i] - prev_ans[i]) for i in range(N)) < ERROR:
+            itr += 1
             return current_ans, itr
-        current_ans = prev_ans
+
     print("Diverged!")
     print("Max iteration reach!")
     return current_ans, itr
+
 A, B, X = generate_matrix()
 
 print(f"matrix is :{A}")
 print(f"B is :{B}")
 
-initial_guess = [0] * N
+initial_guess = B
 answer, itr = seidal_algo(A, B, initial_guess, ERROR, MAX_ITR)
 
 print(f"real answer is :{X}")
