@@ -1,8 +1,8 @@
 import random as r
 import math
-N = r.randint(2, 10)
-error = 1e-6
-max_itr = 500
+N = r.randint(2, 20)
+ERROR = 1e-6
+MAX_ITR = 10000
 
 def diagonal_dominance(A):
     for i in range(N):
@@ -30,33 +30,42 @@ def generate_matrix():
 
     return c_A, B, X
 
-def jacobi_algo(A, B, initial_guess, error, max_itr):
+def seidal_algo(A, B, initial_guess, ERROR, MAX_ITR):
     current_ans = initial_guess.copy()
-    for itr in range(max_itr):
-        new_ans = current_ans.copy()
+    for itr in range(MAX_ITR):
+        prev_ans = current_ans.copy()
         for i in range(N):
             sum_ = 0
             for j in range(N):
                 if i != j:
-                    sum_ += A[i][j] * current_ans[j]
-            new_ans[i] = (B[i] - sum_) / A[i][i]
-        print(f"x{itr}: {new_ans}")
-        if max(abs(new_ans[i] - current_ans[i]) for i in range(N)) < error:
-            return new_ans, itr
-        current_ans = new_ans
-
+                    sum_ += A[i][j] * prev_ans[j]
+            prev_ans[i] = (B[i] - sum_) / A[i][i]
+        # print(f"x{itr}: {prev_ans}")
+        if max(abs(current_ans[i] - prev_ans[i]) for i in range(N)) < ERROR:
+            return current_ans, itr
+        current_ans = prev_ans
+    print("Diverged!")
+    print("Max iteration reach!")
+    return current_ans, itr
 A, B, X = generate_matrix()
+
 print(f"matrix is :{A}")
 print(f"B is :{B}")
+
 initial_guess = [0] * N
-answer, itr = jacobi_algo(A, B, initial_guess, error, max_itr)
+answer, itr = seidal_algo(A, B, initial_guess, ERROR, MAX_ITR)
+
 print(f"real answer is :{X}")
 print(f"final answer is :{answer}")
 print(f"Total iterations: {itr}")
+
 s = 0
+d = 0
 for i in range(N):
     s += (answer[i] - X[i])**2
-
-print(math.sqrt(s))
+    d += (answer[i] - X[i])
+d /= N
+print(f"Error is: {math.sqrt(s)}")
+print(f"Distance to real answer: {d}")
 
 # End of file
