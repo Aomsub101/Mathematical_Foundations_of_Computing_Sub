@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random as r
-import math
+import os
 
-a = -20
-b = 20
+a = 0
+b = 4
 m = 5
+CUR_DIR = os.getcwd()
+CUR_DIR = f"{CUR_DIR}\Day8\interpolation&lagrange\images"
 
 def f(x):
     return np.sin(x)
@@ -59,6 +61,7 @@ interp_y = interpolate(interp_x)
 lagrange_y = lagrange(interp_x)
 real_graph = f(interp_x)
 
+
 plt.figure(figsize=(10, 6))
 plt.plot(points_x, real_answer, 'ro', label='Real Points')
 plt.plot(interp_x, real_graph, label='Real Function')
@@ -66,9 +69,12 @@ plt.plot(interp_x, lagrange_y, label='Lagrange Function')
 plt.plot(interp_x, interp_y, '--', label='Interpolation')
 plt.xlabel('x')
 plt.ylabel('y')
-plt.title('Comparison of Real Function and Interpolation')
+plt.title(f'Comparison of Real Function and Interpolation f(x) = sin(x) m:{m} points')
 plt.legend()
 plt.grid(True)
+
+img_name = "\plot_sinX.png"
+plt.savefig(CUR_DIR+img_name)
 plt.show()
 
 # End of file
