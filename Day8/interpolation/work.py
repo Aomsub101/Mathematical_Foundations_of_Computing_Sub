@@ -8,7 +8,7 @@ b = 20
 m = 5
 
 def f(x):
-    return x**2 + x + 1
+    return np.sin(x)
 
 def get_matrix(points_x):
     matrix = []
@@ -45,10 +45,11 @@ print("Solution:", solve_matrix)
 
 interp_x = np.linspace(a, b, 100)
 interp_y = interpolate(interp_x)
+real_graph = f(interp_x)
 
 plt.figure(figsize=(10, 6))
 plt.plot(points_x, real_answer, 'ro', label='Real Points')
-plt.plot(interp_x, f(interp_x), label='Real Function')
+plt.plot(interp_x, real_graph, label='Real Function')
 plt.plot(interp_x, interp_y, '--', label='Interpolation')
 plt.xlabel('x')
 plt.ylabel('y')
