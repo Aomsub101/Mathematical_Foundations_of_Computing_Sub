@@ -25,17 +25,28 @@ def interpolate(x):
         y += solve_matrix[j] * (x**j)
     return y
 
-# this is the real solution and function
 points_x = [r.uniform(a, b) for _ in range(m)]
 real_answer = []
 for x in points_x:
     real_answer.append(f(x))
-###########################
 
-# we are generating a matrix here
+def get_L(exc, points_x, x):
+    res = 1
+    for i in range(m):
+        if i != exc:
+            res *= (x - points_x[i])/(points_x[exc] - points_x[i])
+
+    return res
+
+def lagrange(x):
+    res = 0
+    for i in range(m):
+        L = get_L(i,points_x,x)
+        res += L * real_answer[i]
+    return res
+
 matrix = get_matrix(points_x)
 
-# we solve the matrix here
 solve_matrix = np.linalg.solve(matrix, real_answer)
 
 print("points_x:", points_x)
@@ -45,11 +56,13 @@ print("Solution:", solve_matrix)
 
 interp_x = np.linspace(a, b, 100)
 interp_y = interpolate(interp_x)
+lagrange_y = lagrange(interp_x)
 real_graph = f(interp_x)
 
 plt.figure(figsize=(10, 6))
 plt.plot(points_x, real_answer, 'ro', label='Real Points')
 plt.plot(interp_x, real_graph, label='Real Function')
+plt.plot(interp_x, lagrange_y, label='Lagrange Function')
 plt.plot(interp_x, interp_y, '--', label='Interpolation')
 plt.xlabel('x')
 plt.ylabel('y')
