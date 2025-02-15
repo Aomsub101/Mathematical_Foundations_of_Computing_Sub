@@ -19,11 +19,11 @@ def lagrange_interpolation(x_points, y_points):
     x = sp.symbols('x')
 
     for i in range(n):
-        term = y_points[i]
+        L_i = y_points[i]
         for j in range(n):
             if j != i:
-                term *= (x - x_points[j]) / (x_points[i] - x_points[j])
-        polynomial += term
+                L_i *= (x - x_points[j]) / (x_points[i] - x_points[j])
+        polynomial += L_i
     return sp.lambdify(x, polynomial, 'numpy')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -64,7 +64,7 @@ def index():
             lagrange_poly = lagrange_interpolation(x, y)
             x_dense = np.linspace(a, b, 100)
             plt.plot(x_dense, lagrange_poly(x_dense), '--', label='Lagrange')
-            results['Lagrange'] = lagrange_poly
+            # results['Lagrange'] = laprange_poly
 
             if eval_point or eval_point == 0:
                 evaluation['Lagrange Polynomial'] = f'f({eval_point}) = {lagrange_poly(eval_point):.4f}'
@@ -79,7 +79,7 @@ def index():
                 np.polyval(poly_y, t_dense),
                 label='Parametric'
             )
-            results['Parametric'] = (poly_x, poly_y)
+            # results['Parametric'] = (poly_x, poly_y)
 
             if eval_point or eval_point == 0:
                 x_val = np.polyval(poly_x, eval_point)
@@ -92,7 +92,7 @@ def index():
             poly_sle = np.poly1d(coeffs)
             x_dense = np.linspace(a, b, 100)
             plt.plot(x_dense, poly_sle(x_dense), label='SLE Polynomial')
-            results['SLE'] = poly_sle
+            # results['SLE'] = poly_sle
 
             if eval_point or eval_point == 0:
                 evaluation['SLE Polynomial'] = f'f({eval_point}) = {poly_sle(eval_point):.4f}'

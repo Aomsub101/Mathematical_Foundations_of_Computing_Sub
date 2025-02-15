@@ -44,7 +44,6 @@
     {% if plot_path %}
         <h2>Interpolation Plot</h2>
         <img src="{{ plot_path }}">
-        
         {% if evaluation %}
             <h2>Evaluation Results</h2>
             {% for method, result in evaluation.items() %}
