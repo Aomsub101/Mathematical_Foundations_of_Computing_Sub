@@ -31,7 +31,9 @@ def index():
     if request.method == 'POST':
         x = y = a = b = degree = None
         methods = request.form.getlist('interp_method')
-        eval_point = request.form.get('eval_point', type=float)
+        eval_point = request.form.get('eval_point')
+        if eval_point or eval_point:
+            eval_point = float(eval_point)
         file = request.files.get('file')
         results = {}
         evaluation = {}
