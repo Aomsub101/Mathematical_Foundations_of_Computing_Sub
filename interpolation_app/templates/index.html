@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpolation Experiment</title>
+</head>
+<body>
+    <h1>Interpolation Experiment</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="function">Function (e.g., x*sin(x) - x**2 + 1):</label>
+        <input type="text" id="function" name="function"><br><br>
+
+        <label for="interval_a">Interval Start (a):</label>
+        <input type="number" id="interval_a" name="interval_a"><br><br>
+
+        <label for="interval_b">Interval End (b):</label>
+        <input type="number" id="interval_b" name="interval_b"><br><br>
+
+        <label for="degree">Degree of polynomial (e.g. 5):</label>
+        <input type="number" id="degree" name="degree"><br><br>
+
+        <p><b>Choose interpolation method(s):</b></p>
+        <input type="checkbox" name="interp_method" value="polynomial_sle"> SLE Polynomial<br>
+        <input type="checkbox" name="interp_method" value="lagrange"> Lagrange Polynomial<br>
+        <input type="checkbox" name="interp_method" value="parametric"> Parametric Polynomials<br><br>
+
+        <label for="file">Upload CSV file with points:</label>
+        <input type="file" id="file" name="file" accept=".csv"><br>
+        <small>If upload a file, data will be base on file.</small><br><br>
+
+        <label for="eval_point">Evaluation Point:</label>
+        <input type="number" id="eval_point" name="eval_point"><br><br>
+
+        <button type="submit">Interpolate</button>
+    </form>
+
+    <!-- Error messages -->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Results -->
+    {% if plot_path %}
+        <h2>Interpolation Plot</h2>
+        <img src="{{ plot_path }}">
+        
+        {% if evaluation %}
+            <h2>Evaluation Results</h2>
+            {% for method, result in evaluation.items() %}
+                <h3>{{ method }}</h3>
+                <pre>{{ result }}</pre>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+</body>
+</html>
