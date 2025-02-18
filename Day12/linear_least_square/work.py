@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def f(x, c):
     return c[0] + c[1]*np.cos(x) + c[2]*np.sin(x) + c[3]*x + c[4]*(x**2) + c[5]*np.log(x)
 
-data = np.genfromtxt('Day12/approx_func_linear_reg/data.csv', delimiter=',')
+data = np.genfromtxt('Day12/linear_least_square/data.csv', delimiter=',')
 points_x = data[:, 0]
 points_y = data[:, 1]
 
